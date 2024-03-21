@@ -1,0 +1,33 @@
+{% extends "tasks/base.html" %}
+{% block content %}
+<p>Задача:</p>
+  <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+    <h2>{{ task.title }}</h2>
+    <p>
+      <b>Описание:</b> {{ task.description }}
+    </p>
+    <p>
+      <b>Дата начала:</b>
+      <input type="date" id="start_date{{ task.id }}" value="{{ task.start_date|date:'Y-m-d' }}" readonly>
+    </p>
+    <p>
+      <b>Дата окончания:</b>
+      <input type="date" id="end_date{{ task.id }}" value="{{ task.end_date|date:'Y-m-d' }}" readonly>
+    </p>
+    <p>
+      <b>Приоритет:</b>
+      <i>{{ task.get_priority_display }}</i>
+    </p>
+    <p>
+      <input type="checkbox" id="completed{{ task.id }}" name="completed" {% if task.completed %}checked{% endif %} disabled>
+      <b>Выполнена</b>
+    </p>
+    <p>
+      <a href="{% url 'tasks:edit_task' task.id %}">Редактировать задачу</a>
+    </p>
+    <form action="{% url 'tasks:delete_task' task.id %}">
+      {% csrf_token %}
+      <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить эту задачу?')">Удалить задачу</button>
+    </form>
+  </div>
+{% endblock content %}

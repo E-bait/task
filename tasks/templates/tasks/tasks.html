@@ -1,0 +1,61 @@
+{% extends "tasks/base.html" %}
+{% block content %}
+  <p>Задачи  -  <a href="{% url 'tasks:new_task' %}">Добавить новую задачу:</a></p>
+  <ul class="task-list">
+    {% for task in tasks %}
+      <li class="task-item" style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
+        <b><a href="{% url 'tasks:task' task.id %}" style="font-size: 20px;">{{ task.title }}</a></b>
+        <form method="post">
+          {% csrf_token %}
+          <label>Дата start:</label>
+          <input type="date" id="start_date{{ task.id }}" value="{{ task.start_date|date:'Y-m-d' }}" readonly>
+          <label>Дата end:</label>
+          <input type="date" id="end_date{{ task.id }}" value="{{ task.end_date|date:'Y-m-d' }}" readonly>
+          <br>
+          <label>Приоритет:</label>
+          <i>{{ task.get_priority_display }}</i>
+          <br>
+          <input type="checkbox" id="completed{{ task.id }}" {% if task.completed %}checked{% endif %} disabled>
+          <label>Выполнена</label>
+          <input type="hidden" value="{{ task.id }}">
+        </form>
+      </li>
+    {% empty %}
+      <li>No tasks ¯\_(ツ)_/¯</li>
+    {% endfor %}
+  </ul>
+
+  <style>
+    .task-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .task-item {
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .task-item a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    .task-item a:hover {
+      color: #666;
+    }
+
+    .task-item input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .task-item input[type="date"] {
+      margin-right: 10px;
+    }
+
+    .task-item label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  </style>
+{% endblock content %}

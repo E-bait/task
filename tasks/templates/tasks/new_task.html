@@ -1,0 +1,35 @@
+{% extends "tasks/base.html" %}
+{% block content %}
+
+	<p>Добавить новую задачу:</p>
+	<form action="{% url 'tasks:new_task' %}" method='post' style="border: 1px solid black; padding: 10px; margin-bottom: 10px; width: 500px;">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button name="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; width: 100%;">Добавить задачу</button>
+	</form>
+
+	<style>
+		form {
+			width: 500px;
+			margin: 0 auto;
+		}
+
+		form p {
+			margin-bottom: 10px;
+		}
+
+		form button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			cursor: pointer;
+			width: 100%;
+		}
+
+		form button:hover {
+			background-color: #45a049;
+		}
+	</style>
+
+{% endblock content %}
